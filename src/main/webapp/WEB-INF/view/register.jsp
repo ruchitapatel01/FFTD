@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>LibertyUI Premium Bootstrap Admin Dashboard Template</title>
+<title>FFTD</title>
 <!-- plugins:css -->
 <link rel="stylesheet"
 	href="<%=request.getContextPath()%>/adminResources/css/flag-icon.min.css">
@@ -39,13 +39,13 @@
 						<div class="auth-form-light text-left p-5">
 							<div class="brand-logo">
 								<img
-									src="<%=request.getContextPath()%>/adminResources/images/logo-inverse.svg"
+									src="<%=request.getContextPath()%>/adminResources/images/image.jpg"
 									alt="logo">
 							</div>
 							<h4>New here?</h4>
 							<h6 class="font-weight-light">Signing up is easy. It only
 								takes a few steps</h6>
-							<f:form class="pt-3" id="register" methos="post"
+							<f:form class="pt-3" id="register" method="post"
 								action="registerUser"
 								onsubmit="return validateRegistrationForm()"
 								modelAttribute="reg">

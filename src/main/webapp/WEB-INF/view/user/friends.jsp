@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
+<%@taglib prefix="f" uri="http://www.springframework.org/tags/form"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jstl/core_rt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -215,65 +217,82 @@
 				</div>
 			</div>
 			<!-- partial -->
-			
-			
+
+
 			<!-- partial:partials/_sidebar.html -->
 			<jsp:include page="menu.jsp"></jsp:include>
 			<!-- partial -->
-			
-			
+
+
 			<div class="main-panel">
 				<div class="content-wrapper">
-				<!-- content-wrapper ends -->
+					<!-- content-wrapper ends -->
+					<div class="row">
+						<c:forEach items="${friendlist}" var="i">
+							<div class="col-md-4 grid-margin stretch-card">
+								<div class="card">
+									<div class="card-body">
+										<div class="d-flex flex-row">
+											<img
+												src="<%=request.getContextPath()%>/adminResources/images/face1.jpg"
+												class="img-lg rounded" alt="profile image">
+											<div class="ml-3">
+												<p class="text-muted">${i.userName}</p>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</c:forEach>
+					</div>
+
+					<!-- partial:partials/_footer.html -->
+					<jsp:include page="footer.jsp"></jsp:include>
+					<!-- partial -->
 
 
-				<!-- partial:partials/_footer.html -->
-				<jsp:include page="footer.jsp"></jsp:include>
-				<!-- partial -->
-				
-				
+				</div>
+				<!-- main-panel ends -->
 			</div>
-			<!-- main-panel ends -->
+			<!-- page-body-wrapper ends -->
 		</div>
-		<!-- page-body-wrapper ends -->
-	</div>
-	<!-- container-scroller -->
+		<!-- container-scroller -->
 
-	<!-- plugins:js -->
-	<script
-		src="<%=request.getContextPath()%>/adminResources/js/vendor.bundle.base.js"></script>
-	<!-- endinject -->
-	<!-- Plugin js for this page-->
-	<script
-		src="<%=request.getContextPath()%>/adminResources/js/Chart.min.js"></script>
-	<script
-		src="<%=request.getContextPath()%>/adminResources/js/progressbar.min.js"></script>
-	<script
-		src="<%=request.getContextPath()%>/adminResources/js/bootstrap-datepicker.min.js"></script>
-	<script
-		src="<%=request.getContextPath()%>/adminResources/js/jquery.barrating.min.js"></script>
-	<script
-		src="<%=request.getContextPath()%>/adminResources/js/jquery.sparkline.min.js"></script>
-	<script
-		src="<%=request.getContextPath()%>/adminResources/js/raphael.min.js"></script>
-	<script
-		src="<%=request.getContextPath()%>/adminResources/js/morris.min.js"></script>
-	<!-- End plugin js for this page-->
-	<!-- inject:js -->
-	<script
-		src="<%=request.getContextPath()%>/adminResources/js/off-canvas.js"></script>
-	<script
-		src="<%=request.getContextPath()%>/adminResources/js/hoverable-collapse.js"></script>
-	<script
-		src="<%=request.getContextPath()%>/adminResources/js/template.js"></script>
-	<script
-		src="<%=request.getContextPath()%>/adminResources/js/settings.js"></script>
-	<script
-		src="<%=request.getContextPath()%>/adminResources/js/todolist.js"></script>
-	<!-- endinject -->
-	<!-- Custom js for this page-->
-	<script
-		src="<%=request.getContextPath()%>/adminResources/js/dashboard.js"></script>
-	<!-- End custom js for this page-->
+		<!-- plugins:js -->
+		<script
+			src="<%=request.getContextPath()%>/adminResources/js/vendor.bundle.base.js"></script>
+		<!-- endinject -->
+		<!-- Plugin js for this page-->
+		<script
+			src="<%=request.getContextPath()%>/adminResources/js/Chart.min.js"></script>
+		<script
+			src="<%=request.getContextPath()%>/adminResources/js/progressbar.min.js"></script>
+		<script
+			src="<%=request.getContextPath()%>/adminResources/js/bootstrap-datepicker.min.js"></script>
+		<script
+			src="<%=request.getContextPath()%>/adminResources/js/jquery.barrating.min.js"></script>
+		<script
+			src="<%=request.getContextPath()%>/adminResources/js/jquery.sparkline.min.js"></script>
+		<script
+			src="<%=request.getContextPath()%>/adminResources/js/raphael.min.js"></script>
+		<script
+			src="<%=request.getContextPath()%>/adminResources/js/morris.min.js"></script>
+		<!-- End plugin js for this page-->
+		<!-- inject:js -->
+		<script
+			src="<%=request.getContextPath()%>/adminResources/js/off-canvas.js"></script>
+		<script
+			src="<%=request.getContextPath()%>/adminResources/js/hoverable-collapse.js"></script>
+		<script
+			src="<%=request.getContextPath()%>/adminResources/js/template.js"></script>
+		<script
+			src="<%=request.getContextPath()%>/adminResources/js/settings.js"></script>
+		<script
+			src="<%=request.getContextPath()%>/adminResources/js/todolist.js"></script>
+		<!-- endinject -->
+		<!-- Custom js for this page-->
+		<script
+			src="<%=request.getContextPath()%>/adminResources/js/dashboard.js"></script>
+		<!-- End custom js for this page-->
 </body>
 </html>

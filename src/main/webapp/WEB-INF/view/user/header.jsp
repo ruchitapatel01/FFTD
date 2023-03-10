@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
+<%@taglib prefix="f" uri="http://www.springframework.org/tags/form"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jstl/core_rt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,35 +13,28 @@
 	<nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
 		<div
 			class="text-center navbar-brand-wrapper d-flex align-items-top justify-content-center">
-			<h1>FFTD</h1><a class="navbar-brand brand-logo" href="index.html"><img
-				src="<%=request.getContextPath()%>/adminResources/images/image.jpg" alt="logo" /></a>
+			<a class="navbar-brand brand-logo" href="index.html"><img
+				src="<%=request.getContextPath()%>/adminResources/images/image.jpg"
+				alt="logo" /></a>
 		</div>
 		<div class="navbar-menu-wrapper d-flex align-items-center">
 			<button class="navbar-toggler navbar-toggler align-self-center"
 				type="button" data-toggle="minimize">
 				<span class="icon-menu"></span>
 			</button>
-			<ul class="navbar-nav">
-				<li class="nav-item dropdown d-none d-lg-flex"><a
-					class="nav-link dropdown-toggle nav-btn" id="actionDropdown"
-					href="#" data-toggle="dropdown"> <span class="btn">+
-							Create new</span>
-				</a>
-					<div class="dropdown-menu navbar-dropdown dropdown-left"
-						aria-labelledby="actionDropdown">
-						<a class="dropdown-item" href="#"> <i
-							class="icon-user text-primary"></i> User Account
-						</a>
-						<div class="dropdown-divider"></div>
-						<a class="dropdown-item" href="#"> <i
-							class="icon-user-following text-warning"></i> Admin User
-						</a>
-						<div class="dropdown-divider"></div>
-						<a class="dropdown-item" href="#"> <i
-							class="icon-docs text-success"></i> Sales report
-						</a>
-					</div></li>
-			</ul>
+			<f:form method="post" id="addMember" action="addMember" modelAttribute="add">
+				<div class="add-items d-flex"
+					style="width: 270%; margin-left: 50px;">
+
+					<f:input type="text" class="form-control todo-list-input"
+						placeholder="Add new member"
+						style="background: white; margin-top: 25px;" path="username" />
+						
+					<input type="submit"
+						class="add btn btn-primary font-weight-bold"
+						style="text-align: center; margin-top: 25px;" value="Add">
+				</div>
+			</f:form>
 			<ul class="navbar-nav navbar-nav-right">
 				<li class="nav-item dropdown"><a
 					class="nav-link count-indicator dropdown-toggle"
@@ -112,7 +107,9 @@
 						<div class="dropdown-divider"></div>
 						<a class="dropdown-item preview-item">
 							<div class="preview-thumbnail">
-								<img src="<%=request.getContextPath()%>/adminResources/images/face4.jpg" alt="image" class="profile-pic">
+								<img
+									src="<%=request.getContextPath()%>/adminResources/images/face4.jpg"
+									alt="image" class="profile-pic">
 							</div>
 							<div class="preview-item-content flex-grow">
 								<h6 class="preview-subject ellipsis font-weight-medium">
@@ -127,7 +124,9 @@
 						<div class="dropdown-divider"></div>
 						<a class="dropdown-item preview-item">
 							<div class="preview-thumbnail">
-								<img src="<%=request.getContextPath()%>/adminResources/images/face2.jpg" alt="image" class="profile-pic">
+								<img
+									src="<%=request.getContextPath()%>/adminResources/images/face2.jpg"
+									alt="image" class="profile-pic">
 							</div>
 							<div class="preview-item-content flex-grow">
 								<h6 class="preview-subject ellipsis font-weight-medium">
@@ -140,7 +139,9 @@
 						<div class="dropdown-divider"></div>
 						<a class="dropdown-item preview-item">
 							<div class="preview-thumbnail">
-								<img src="<%=request.getContextPath()%>/adminResources/images/face3.jpg" alt="image" class="profile-pic">
+								<img
+									src="<%=request.getContextPath()%>/adminResources/images/face3.jpg"
+									alt="image" class="profile-pic">
 							</div>
 							<div class="preview-item-content flex-grow">
 								<h6 class="preview-subject ellipsis font-weight-medium">

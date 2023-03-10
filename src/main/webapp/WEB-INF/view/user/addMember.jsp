@@ -1,10 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
+<%@taglib prefix="f" uri="http://www.springframework.org/tags/form"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jstl/core_rt"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>FFTD</title>
+<title>LibertyUI Premium Bootstrap Admin Dashboard Template</title>
 <!-- plugins:css -->
 <link rel="stylesheet"
 	href="<%=request.getContextPath()%>/adminResources/css/flag-icon.min.css">
@@ -215,65 +217,125 @@
 				</div>
 			</div>
 			<!-- partial -->
-			
-			
+
+
 			<!-- partial:partials/_sidebar.html -->
 			<jsp:include page="menu.jsp"></jsp:include>
 			<!-- partial -->
-			
-			
+
+
 			<div class="main-panel">
 				<div class="content-wrapper">
-				<!-- content-wrapper ends -->
+					<!-- content-wrapper ends -->
+					<h1>${msg}</h1>
+					<div class="card">
+						<c:forEach items="${MemberList}" var="i">
+							<div class="card-body">
+								<h4 class="card-title">Member</h4>
+								<div class="row">
+									<div class="col-12">
+										<div class="table-responsive">
+											<form action="saveMember" method="post">
+												<table id="order-listing" class="table">
+													<thead>
+														<tr>
+															<th>Id</th>
+															<th>Username</th>
+															<th>Relationship</th>
+															<th>Access</th>
+															<th>Action</th>
+														</tr>
+													</thead>
+													<tbody>
+														<tr>
+															<td>1</td>
+															<td>${i.username}</td>
+															<td><div class="col-sm-9"
+																	style="margin-right: 70px;">
+																	<select class="form-control" name="type">
+																		<option>Friend</option>
+																		<option>Family</option>
+																	</select>
+																</div></td>
+															<td><span class="col-sm-4">
+																	<div class="form-radio">
+																		<label class="form-check-label"> <input
+																			type="radio" class="form-check-input" name="role"
+																			id="membershipRadios1" value="1">
+																			Co-ordinator <i class="input-helper"></i><i
+																			class="input-helper"></i></label>
+																	</div>
+															</span> <span class="col-sm-5">
+																	<div class="form-radio">
+																		<label class="form-check-label"> <input
+																			type="radio" class="form-check-input" name="role"
+																			id="membershipRadios2" value="0"> General <i
+																			class="input-helper"></i><i class="input-helper"></i></label>
+																	</div>
+															</span></td>
+															<td>
+																<button class="btn btn-outline-primary">Add</button>
+															</td>
+														</tr>
+													</tbody>
+												</table>
+												<Input type="hidden" name="loginId" value="${i.loginId}">
+												<Input type="hidden" name="username" value="${i.username}">
+											</Form>
+										</div>
+									</div>
+								</div>
+							</div>
+						</c:forEach>
+					</div>
+
+					<!-- partial:partials/_footer.html -->
+					<jsp:include page="footer.jsp"></jsp:include>
+					<!-- partial -->
 
 
-				<!-- partial:partials/_footer.html -->
-				<jsp:include page="footer.jsp"></jsp:include>
-				<!-- partial -->
-				
-				
+				</div>
+				<!-- main-panel ends -->
 			</div>
-			<!-- main-panel ends -->
+			<!-- page-body-wrapper ends -->
 		</div>
-		<!-- page-body-wrapper ends -->
-	</div>
-	<!-- container-scroller -->
+		<!-- container-scroller -->
 
-	<!-- plugins:js -->
-	<script
-		src="<%=request.getContextPath()%>/adminResources/js/vendor.bundle.base.js"></script>
-	<!-- endinject -->
-	<!-- Plugin js for this page-->
-	<script
-		src="<%=request.getContextPath()%>/adminResources/js/Chart.min.js"></script>
-	<script
-		src="<%=request.getContextPath()%>/adminResources/js/progressbar.min.js"></script>
-	<script
-		src="<%=request.getContextPath()%>/adminResources/js/bootstrap-datepicker.min.js"></script>
-	<script
-		src="<%=request.getContextPath()%>/adminResources/js/jquery.barrating.min.js"></script>
-	<script
-		src="<%=request.getContextPath()%>/adminResources/js/jquery.sparkline.min.js"></script>
-	<script
-		src="<%=request.getContextPath()%>/adminResources/js/raphael.min.js"></script>
-	<script
-		src="<%=request.getContextPath()%>/adminResources/js/morris.min.js"></script>
-	<!-- End plugin js for this page-->
-	<!-- inject:js -->
-	<script
-		src="<%=request.getContextPath()%>/adminResources/js/off-canvas.js"></script>
-	<script
-		src="<%=request.getContextPath()%>/adminResources/js/hoverable-collapse.js"></script>
-	<script
-		src="<%=request.getContextPath()%>/adminResources/js/template.js"></script>
-	<script
-		src="<%=request.getContextPath()%>/adminResources/js/settings.js"></script>
-	<script
-		src="<%=request.getContextPath()%>/adminResources/js/todolist.js"></script>
-	<!-- endinject -->
-	<!-- Custom js for this page-->
-	<script
-		src="<%=request.getContextPath()%>/adminResources/js/dashboard.js"></script>
-	<!-- End custom js for this page-->
+		<!-- plugins:js -->
+		<script
+			src="<%=request.getContextPath()%>/adminResources/js/vendor.bundle.base.js"></script>
+		<!-- endinject -->
+		<!-- Plugin js for this page-->
+		<script
+			src="<%=request.getContextPath()%>/adminResources/js/Chart.min.js"></script>
+		<script
+			src="<%=request.getContextPath()%>/adminResources/js/progressbar.min.js"></script>
+		<script
+			src="<%=request.getContextPath()%>/adminResources/js/bootstrap-datepicker.min.js"></script>
+		<script
+			src="<%=request.getContextPath()%>/adminResources/js/jquery.barrating.min.js"></script>
+		<script
+			src="<%=request.getContextPath()%>/adminResources/js/jquery.sparkline.min.js"></script>
+		<script
+			src="<%=request.getContextPath()%>/adminResources/js/raphael.min.js"></script>
+		<script
+			src="<%=request.getContextPath()%>/adminResources/js/morris.min.js"></script>
+		<!-- End plugin js for this page-->
+		<!-- inject:js -->
+		<script
+			src="<%=request.getContextPath()%>/adminResources/js/off-canvas.js"></script>
+		<script
+			src="<%=request.getContextPath()%>/adminResources/js/hoverable-collapse.js"></script>
+		<script
+			src="<%=request.getContextPath()%>/adminResources/js/template.js"></script>
+		<script
+			src="<%=request.getContextPath()%>/adminResources/js/settings.js"></script>
+		<script
+			src="<%=request.getContextPath()%>/adminResources/js/todolist.js"></script>
+		<!-- endinject -->
+		<!-- Custom js for this page-->
+		<script
+			src="<%=request.getContextPath()%>/adminResources/js/dashboard.js"></script>
+		<!-- End custom js for this page-->
 </body>
 </html>
