@@ -18,6 +18,12 @@
 		<li class="nav-item"><a class="nav-link" href="friendsPage"> <i
 				class="icon-menu menu-icon"></i> <span class="menu-title">Friends </span>
 		</a></li>
+		<li class="nav-item"><a class="nav-link" href="familyPage"> <i
+				class="icon-menu menu-icon"></i> <span class="menu-title">Family</span>
+		</a></li>
+		<li class="nav-item"><a class="nav-link" href="eventsPage"> <i
+				class="icon-menu menu-icon"></i> <span class="menu-title">Events </span>
+		</a></li>
 		<!-- <li class="nav-item"><a class="nav-link"
 			href="pages/widgets/widgets.html"> <i
 				class="icon-handbag menu-icon"></i> <span class="menu-title">Widgets</span>

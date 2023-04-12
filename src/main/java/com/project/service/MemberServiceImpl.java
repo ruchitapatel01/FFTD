@@ -27,4 +27,8 @@ public class MemberServiceImpl implements MemberService{
 		return memberDAO.searchForFriendsList(loginVo);
 	}
 
+	public List<MemberVO> getFamilyList(Integer loginVo) {
+		return memberDAO.searchForFamily(loginVo);
+	}
+
 }

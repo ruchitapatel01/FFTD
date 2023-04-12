@@ -13,4 +13,6 @@ public interface MemberService {
 	
 	public List<MemberVO> getFriendList(Integer loginVo);
 	
+	public List<MemberVO> getFamilyList(Integer loginVo);
+	
 }

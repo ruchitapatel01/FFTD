@@ -254,7 +254,14 @@
 																	style="margin-right: 70px;">
 																	<select class="form-control" name="type">
 																		<option>Friend</option>
-																		<option>Family</option>
+																		<option>Grand Father</option>
+																		<option>Grand Mother</option>
+																		<option>Father</option>
+																		<option>Mother</option>
+																		<option>Brother</option>
+																		<option>Sister</option>
+																		<option>Son</option>
+																		<option>Daughter</option>
 																	</select>
 																</div></td>
 															<td><span class="col-sm-4">

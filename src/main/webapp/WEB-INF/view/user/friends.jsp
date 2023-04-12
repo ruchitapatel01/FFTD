@@ -230,18 +230,21 @@
 					<div class="row">
 						<c:forEach items="${friendlist}" var="i">
 							<div class="col-md-4 grid-margin stretch-card">
-								<div class="card">
-									<div class="card-body">
-										<div class="d-flex flex-row">
-											<img
-												src="<%=request.getContextPath()%>/adminResources/images/face1.jpg"
-												class="img-lg rounded" alt="profile image">
-											<div class="ml-3">
-												<p class="text-muted">${i.userName}</p>
+								<form action="friendPost" method="post">
+									<button class="card btn">
+										<div class="card-body">
+											<div class="d-flex flex-row">
+												<img
+													src="<%=request.getContextPath()%>/adminResources/images/face1.jpg"
+													class="img-lg rounded" alt="profile image">
+												<div class="ml-3">
+													<p class="text-muted">${i.userName}</p>
+												</div>
 											</div>
 										</div>
-									</div>
-								</div>
+									</button>
+									<Input type="hidden" name="friendName" value="${i.userName}">
+								</form>
 							</div>
 						</c:forEach>
 					</div>

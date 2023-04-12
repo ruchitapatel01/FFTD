@@ -15,4 +15,7 @@ public interface MemberDAO extends JpaRepository<MemberVO, Integer>{
 	@Query("select m from MemberVO m where m.loginVO.loginId=? and category='Friend' ")
 	public List<MemberVO> searchForFriendsList(Integer loginId);
 	
+	@Query("select m from MemberVO m where m.loginVO.loginId=? and category!='Friend'")
+	public List<MemberVO> searchForFamily(Integer id);
+	
 }
