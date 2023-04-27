@@ -1,6 +1,7 @@
 package com.project.controller;
 
 import java.nio.file.Paths;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Period;
@@ -9,6 +10,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -319,25 +321,30 @@ public class MemberController {
 	}
 
 	@GetMapping(value = "user/JustHappenedPage")
-	public ModelAndView JustHappenedPage() {
+	public ModelAndView JustHappenedPage() throws ParseException {
 
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 		DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		Date date = new Date();
 
 		List<JustHappenedVO> list = justHappenedService.getList(loginService.getUserId(baseMethods.getUser()));
-		List<JustHappenedVO> justHappenedList;
+		List<JustHappenedVO> justHappenedList = new ArrayList<JustHappenedVO>();
 
-//		long timeDiff = Math.abs(date.getTime() - dateBeforeInMs);
-//
-//		long daysDiff = TimeUnit.DAYS.convert(timeDiff, TimeUnit.MILLISECONDS);
+		for (int i=0; i<list.size(); i++) {
+			long timeDiff = Math.abs(date.getTime() - formatter.parse(list.get(i).getDate()).getTime());
+			long daysDiff = TimeUnit.DAYS.convert(timeDiff, TimeUnit.MILLISECONDS);
+			
+			if (daysDiff < list.get(i).getExpDays()) {
+				justHappenedList.add(list.get(i));
+			}
+		}
 
 		return new ModelAndView("user/JustHappened", "add", new LoginVO())
-				.addObject("justHappenedVo", new JustHappenedVO()).addObject("list", list);
+				.addObject("justHappenedVo", new JustHappenedVO()).addObject("list", justHappenedList);
 	}
 
 	@PostMapping(value = "user/saveJustHappenedPost")
-	public ModelAndView saveJustHappenedPost(JustHappenedVO justhappenedVo, HttpServletRequest httpServletRequest) {
+	public ModelAndView saveJustHappenedPost(JustHappenedVO justhappenedVo, HttpServletRequest httpServletRequest) throws ParseException {
 
 		LoginVO loginVO = new LoginVO();
 		loginVO.setLoginId(loginService.getUserId(baseMethods.getUser()));
@@ -351,14 +358,19 @@ public class MemberController {
 		justHappenedService.insert(justhappenedVo);
 
 		List<JustHappenedVO> list = justHappenedService.getList(loginService.getUserId(baseMethods.getUser()));
-		List<JustHappenedVO> justHappenedList;
+		List<JustHappenedVO> justHappenedList = new ArrayList<JustHappenedVO>();
 
-//		Period age = Period.between(LocalDate.parse(list.get(0).getDate(), format), LocalDate.parse(formatter.format(date), format));
-//		int days = age.getDays();
-//		System.out.println(days);
+		for (int i=0; i<list.size(); i++) {
+		long timeDiff = Math.abs(date.getTime() - formatter.parse(list.get(i).getDate()).getTime());
+		long daysDiff = TimeUnit.DAYS.convert(timeDiff, TimeUnit.MILLISECONDS);
+		
+		if (daysDiff < list.get(i).getExpDays()) {
+			justHappenedList.add(list.get(i));
+		}
+	}
 
 		return new ModelAndView("user/JustHappened").addObject("add", new LoginVO())
-				.addObject("justHappenedVo", new JustHappenedVO()).addObject("list", list);
+				.addObject("justHappenedVo", new JustHappenedVO()).addObject("list", justHappenedList);
 
 	}
 
