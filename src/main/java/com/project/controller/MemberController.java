@@ -1,11 +1,7 @@
 package com.project.controller;
 
-import java.nio.file.Paths;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.Period;
-import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
@@ -22,16 +18,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.project.VO.EventGalleryVO;
 import com.project.VO.EventVO;
-import com.project.VO.FriendsGalleryVO;
 import com.project.VO.JustHappenedVO;
 import com.project.VO.LoginVO;
 import com.project.VO.MemberVO;
 import com.project.VO.TravelVO;
-import com.project.service.EventGalleryService;
 import com.project.service.EventService;
-import com.project.service.FriendsGalleryService;
 import com.project.service.JustHappenedService;
 import com.project.service.LoginService;
 import com.project.service.MemberService;
@@ -48,16 +40,7 @@ public class MemberController {
 	private MemberService memberService;
 
 	@Autowired
-	private FriendsGalleryService friendsGalleryService;
-
-	@Autowired
 	private EventService eventService;
-
-	@Autowired
-	private TravelService travelService;
-
-	@Autowired
-	private JustHappenedService justHappenedService;
 
 	@Autowired
 	private BaseMethods baseMethods;
@@ -127,251 +110,25 @@ public class MemberController {
 		return new ModelAndView("user/index").addObject("add", new LoginVO());
 	}
 
-	@GetMapping(value = "user/friendsPage")
-	public ModelAndView userIndex() {
+	@RequestMapping(value = "user/membersGallery")
+	public ModelAndView membersGallery(@RequestParam String userName, HttpServletRequest httpServletRequest) {
 
-		Integer loginId = loginService.getUserId(baseMethods.getUser());
-		List<MemberVO> friendsList = memberService.getFriendList(loginId);
+		List<EventVO> membersPostList = eventService.getEventList(loginService.getUserId(userName));
 
-		return new ModelAndView("user/friends", "add", new LoginVO()).addObject("friendlist", friendsList);
+		return new ModelAndView("user/coordinatorMembersGallery").addObject("add", new LoginVO())
+				.addObject("membersPosts", membersPostList).addObject("uName", userName).addObject("eventVo", new EventVO());
 	}
-
-	@PostMapping(value = "user/friendPost")
-	public ModelAndView friendsPost(HttpServletRequest httpServletRequest) {
-
-		String name = httpServletRequest.getParameter("friendName");
-		System.out.println(name);
-
-		List<FriendsGalleryVO> friendGalleryList = friendsGalleryService.getFriendsGalleryList(baseMethods.getUser(),
-				name);
-
-		return new ModelAndView("user/friendsGallery").addObject("add", new LoginVO()).addObject("friendName", name)
-				.addObject("friendsData", new FriendsGalleryVO()).addObject("galleryList", friendGalleryList);
-	}
-
-	@PostMapping(value = "user/saveImage")
-	public ModelAndView saveGallery(FriendsGalleryVO friendsGalleryVO, HttpServletRequest httpServletRequest) {
-
-		String currentUsername = baseMethods.getUser();
-		String friendsUser = httpServletRequest.getParameter("friendsUsername");
+	
+	@PostMapping(value = "user/saveEventFromCoordinator")
+	public ModelAndView saveEventFromCoordinator(EventVO eventVO, @RequestParam String username, HttpServletRequest httpServletRequest) {
 
 		LoginVO loginVO = new LoginVO();
-		loginVO.setLoginId(loginService.getUserId(currentUsername));
-		friendsGalleryVO.setUser(loginVO);
+		loginVO.setLoginId(loginService.getUserId(username));
 
-		LoginVO loginVO2 = new LoginVO();
-		loginVO2.setLoginId(loginService.getUserId(friendsUser));
-		friendsGalleryVO.setFriend(loginVO2);
+		eventVO.setCurrentUser(loginVO);
+		eventService.insert(eventVO);
 
-		friendsGalleryService.insert(friendsGalleryVO);
-		List<FriendsGalleryVO> friendGalleryList = friendsGalleryService.getFriendsGalleryList(baseMethods.getUser(),
-				friendsUser);
-
-		return new ModelAndView("user/friendsGallery").addObject("add", new LoginVO())
-				.addObject("friendName", friendsUser).addObject("friendsData", new FriendsGalleryVO())
-				.addObject("galleryList", friendGalleryList);
-	}
-
-	@PostMapping(value = "user/deletePost")
-	public ModelAndView deleteImage(HttpServletRequest httpServletRequest) {
-
-		Integer fileId = Integer.parseInt(httpServletRequest.getParameter("fileId"));
-		String userName = httpServletRequest.getParameter("username");
-		String friendsName = httpServletRequest.getParameter("friendName");
-
-		friendsGalleryService.deletePost(fileId);
-		List<FriendsGalleryVO> friendGalleryList = friendsGalleryService.getFriendsGalleryList(userName, friendsName);
-
-		return new ModelAndView("user/friendsGallery").addObject("add", new LoginVO())
-				.addObject("friendName", friendsName).addObject("friendsData", new FriendsGalleryVO())
-				.addObject("galleryList", friendGalleryList);
-	}
-
-	@GetMapping(value = "user/familyPage")
-	public ModelAndView family() {
-
-		List<MemberVO> familyList = memberService.getFamilyList(loginService.getUserId(baseMethods.getUser()));
-
-		return new ModelAndView("user/family", "add", new LoginVO()).addObject("familylist", familyList);
-	}
-
-	@RequestMapping(value = "user/familyGallery")
-	public ModelAndView familyGallery(@RequestParam(required = false) String username) {
-
-		return new ModelAndView("user/familyGallery", "add", new LoginVO());
-	}
-
-	@GetMapping(value = "user/eventsPage")
-	public ModelAndView eventsPage() {
-
-		List<EventVO> eventList = eventService.getEventYearList(loginService.getUserId(baseMethods.getUser()));
-
-		return new ModelAndView("user/events", "add", new LoginVO()).addObject("eventVo", new EventVO())
-				.addObject("eventlist", eventList);
-	}
-
-	@PostMapping(value = "user/saveEvent")
-	public ModelAndView saveEvent(EventVO eventVo, HttpServletRequest httpServletRequest) {
-
-		System.out.println(eventVo.getEventFileName());
-
-		LoginVO loginVO = new LoginVO();
-		loginVO.setLoginId(loginService.getUserId(baseMethods.getUser()));
-
-		eventVo.setCurrentUser(loginVO);
-		eventService.insert(eventVo);
-
-		List<EventVO> eventList = eventService.getEventYearList(loginService.getUserId(baseMethods.getUser()));
-
-		return new ModelAndView("user/events").addObject("add", new LoginVO()).addObject("eventlist", eventList)
-				.addObject("eventVo", new EventVO());
-
-	}
-
-	@GetMapping(value = "user/eventNameList")
-	public ModelAndView eventNameList(@RequestParam(required = false) String eyear,
-			HttpServletRequest httpServletRequest) {
-
-		Integer eYear = Integer.parseInt(eyear);
-		List<EventVO> eventNameList = eventService.getEventNameList(eYear);
-
-		return new ModelAndView("user/eventGallery").addObject("add", new LoginVO()).addObject("eventNameList",
-				eventNameList);
-	}
-
-	@GetMapping(value = "user/eventPostPage")
-	public ModelAndView eventPostPage(@RequestParam(required = false) String year,
-			@RequestParam(required = false) String eName, HttpServletRequest httpServletRequest) {
-
-		Integer eYear = Integer.parseInt(year);
-		List<EventVO> eventFileList = eventService.getEventFileList(eYear, eName);
-
-		return new ModelAndView("user/eventPostPage").addObject("add", new LoginVO())
-				.addObject("eventFileList", eventFileList).addObject("eventName", eName);
-	}
-
-	@GetMapping(value = "user/travelPage")
-	public ModelAndView travelPage() {
-
-		return new ModelAndView("user/travel", "add", new LoginVO()).addObject("travelVo", new TravelVO());
-	}
-
-	@PostMapping(value = "user/saveTravelPost")
-	public ModelAndView saveTravelPost(TravelVO travelVo, HttpServletRequest httpServletRequest) {
-
-		LoginVO loginVO = new LoginVO();
-		loginVO.setLoginId(loginService.getUserId(baseMethods.getUser()));
-
-		travelVo.setCurrentUser(loginVO);
-		travelService.insert(travelVo);
-
-		return new ModelAndView("user/travel").addObject("add", new LoginVO()).addObject("travelVo", new TravelVO());
-
-	}
-
-	@GetMapping(value = "user/travelYear")
-	public ModelAndView travelYear(HttpServletRequest httpServletRequest) {
-
-		List<TravelVO> travelList = travelService.getTravelYearList(loginService.getUserId(baseMethods.getUser()));
-
-		return new ModelAndView("user/travel").addObject("add", new LoginVO()).addObject("travelVo", new TravelVO())
-				.addObject("travelList", travelList).addObject("sort", "year");
-
-	}
-
-	@GetMapping(value = "user/travelCountry")
-	public ModelAndView travelCountry(HttpServletRequest httpServletRequest) {
-
-		List<TravelVO> travelList = travelService.getTravelCountryList(loginService.getUserId(baseMethods.getUser()));
-
-		return new ModelAndView("user/travel").addObject("add", new LoginVO()).addObject("travelVo", new TravelVO())
-				.addObject("travelList", travelList).addObject("sort", "country");
-
-	}
-
-	@GetMapping(value = "user/travelPlace")
-	public ModelAndView travelPlace(HttpServletRequest httpServletRequest) {
-
-		List<TravelVO> travelList = travelService.getTravelPlaceList(loginService.getUserId(baseMethods.getUser()));
-
-		return new ModelAndView("user/travel").addObject("add", new LoginVO()).addObject("travelVo", new TravelVO())
-				.addObject("travelList", travelList).addObject("sort", "place");
-
-	}
-
-	@GetMapping(value = "user/travelGallery")
-	public ModelAndView travelGallery(@RequestParam(required = false) String sort,
-			@RequestParam(required = false) String select, HttpServletRequest httpServletRequest) {
-
-		List<TravelVO> travelList;
-
-		if (select.equalsIgnoreCase("year")) {
-			travelList = travelService.getTravelYearSelectionList(loginService.getUserId(baseMethods.getUser()),
-					Integer.parseInt(sort));
-		} else if (select.equalsIgnoreCase("country")) {
-			travelList = travelService.getTravelCpuntrySelectionList(loginService.getUserId(baseMethods.getUser()),
-					sort);
-		} else {
-			travelList = travelService.getTravelPlaceSelectionList(loginService.getUserId(baseMethods.getUser()), sort);
-		}
-
-		return new ModelAndView("user/travelGallery").addObject("add", new LoginVO())
-				.addObject("travelVo", new TravelVO()).addObject("travelList", travelList).addObject("select", sort);
-
-	}
-
-	@GetMapping(value = "user/JustHappenedPage")
-	public ModelAndView JustHappenedPage() throws ParseException {
-
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-		DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-		Date date = new Date();
-
-		List<JustHappenedVO> list = justHappenedService.getList(loginService.getUserId(baseMethods.getUser()));
-		List<JustHappenedVO> justHappenedList = new ArrayList<JustHappenedVO>();
-
-		for (int i=0; i<list.size(); i++) {
-			long timeDiff = Math.abs(date.getTime() - formatter.parse(list.get(i).getDate()).getTime());
-			long daysDiff = TimeUnit.DAYS.convert(timeDiff, TimeUnit.MILLISECONDS);
-			
-			if (daysDiff < list.get(i).getExpDays()) {
-				justHappenedList.add(list.get(i));
-			}
-		}
-
-		return new ModelAndView("user/JustHappened", "add", new LoginVO())
-				.addObject("justHappenedVo", new JustHappenedVO()).addObject("list", justHappenedList);
-	}
-
-	@PostMapping(value = "user/saveJustHappenedPost")
-	public ModelAndView saveJustHappenedPost(JustHappenedVO justhappenedVo, HttpServletRequest httpServletRequest) throws ParseException {
-
-		LoginVO loginVO = new LoginVO();
-		loginVO.setLoginId(loginService.getUserId(baseMethods.getUser()));
-
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-		DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-		Date date = new Date();
-
-		justhappenedVo.setCurrentUser(loginVO);
-		justhappenedVo.setDate(formatter.format(date));
-		justHappenedService.insert(justhappenedVo);
-
-		List<JustHappenedVO> list = justHappenedService.getList(loginService.getUserId(baseMethods.getUser()));
-		List<JustHappenedVO> justHappenedList = new ArrayList<JustHappenedVO>();
-
-		for (int i=0; i<list.size(); i++) {
-		long timeDiff = Math.abs(date.getTime() - formatter.parse(list.get(i).getDate()).getTime());
-		long daysDiff = TimeUnit.DAYS.convert(timeDiff, TimeUnit.MILLISECONDS);
-		
-		if (daysDiff < list.get(i).getExpDays()) {
-			justHappenedList.add(list.get(i));
-		}
-	}
-
-		return new ModelAndView("user/JustHappened").addObject("add", new LoginVO())
-				.addObject("justHappenedVo", new JustHappenedVO()).addObject("list", justHappenedList);
-
+		return new ModelAndView("redirect:/user/membersGallery?userName=" + username);
 	}
 
 //	@RequestMapping(value = "user/eventGallery")

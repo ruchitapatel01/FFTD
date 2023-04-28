@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
+<%@taglib prefix="f" uri="http://www.springframework.org/tags/form"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jstl/core_rt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -215,65 +217,115 @@
 				</div>
 			</div>
 			<!-- partial -->
-			
-			
+
+
 			<!-- partial:partials/_sidebar.html -->
 			<jsp:include page="menu.jsp"></jsp:include>
 			<!-- partial -->
-			
-			
+
+
 			<div class="main-panel">
 				<div class="content-wrapper">
-				<!-- content-wrapper ends -->
+					<!-- content-wrapper ends -->
 
 
-				<!-- partial:partials/_footer.html -->
-				<jsp:include page="footer.jsp"></jsp:include>
-				<!-- partial -->
-				
-				
+					<div class="row">
+						<div class="col-12 grid-margin">
+							<div class="card">
+								<div class="card-body">
+									<h5 class="card-title mb-4">List of Members</h5>
+									<div class="fluid-container">
+										<c:forEach items="${memberList}" var="i">
+											<div
+												class="row ticket-card mt-3 pb-2 border-bottom pb-3 mb-3">
+												<div class="ticket-details col-md-9">
+													<div class="d-flex">
+														<p class="text-dark font-weight-bold mr-2 mb-0 no-wrap">${i.userName}</p>
+													</div>
+													<div class="row text-gray d-md-flex d-none">
+														<div class="col-4 d-flex">
+															<c:if test="${i.role == 1}">
+																<p class="mb-0 mr-2 text-muted text-muted">Role:
+																	Co-ordinator</p>
+															</c:if>
+															<c:if test="${i.role == 0}">
+																<p class="mb-0 mr-2 text-muted text-muted">Role:
+																	General</p>
+															</c:if>
+														</div>
+														<div class="col-4 d-flex">
+															<p class="mb-0 mr-2 text-muted text-muted">Category:
+																${i.category}</p>
+														</div>
+													</div>
+												</div>
+												<form action="membersGallery" method="post">
+													<div class="ticket-actions col-md-2">
+														<c:if test="${i.role == 1}">
+															<button class="btn btn-primary">View</button>
+														</c:if>
+														<c:if test="${i.role == 0}">
+															<button class="btn btn-primary" disabled>View</button>
+														</c:if>
+													</div>
+													<Input type="hidden" name="userName" value="${i.userName}">
+												</form>
+											</div>
+										</c:forEach>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+
+					<!-- partial:partials/_footer.html -->
+					<jsp:include page="footer.jsp"></jsp:include>
+					<!-- partial -->
+
+
+				</div>
+				<!-- main-panel ends -->
 			</div>
-			<!-- main-panel ends -->
+			<!-- page-body-wrapper ends -->
 		</div>
-		<!-- page-body-wrapper ends -->
-	</div>
-	<!-- container-scroller -->
+		<!-- container-scroller -->
 
-	<!-- plugins:js -->
-	<script
-		src="<%=request.getContextPath()%>/adminResources/js/vendor.bundle.base.js"></script>
-	<!-- endinject -->
-	<!-- Plugin js for this page-->
-	<script
-		src="<%=request.getContextPath()%>/adminResources/js/Chart.min.js"></script>
-	<script
-		src="<%=request.getContextPath()%>/adminResources/js/progressbar.min.js"></script>
-	<script
-		src="<%=request.getContextPath()%>/adminResources/js/bootstrap-datepicker.min.js"></script>
-	<script
-		src="<%=request.getContextPath()%>/adminResources/js/jquery.barrating.min.js"></script>
-	<script
-		src="<%=request.getContextPath()%>/adminResources/js/jquery.sparkline.min.js"></script>
-	<script
-		src="<%=request.getContextPath()%>/adminResources/js/raphael.min.js"></script>
-	<script
-		src="<%=request.getContextPath()%>/adminResources/js/morris.min.js"></script>
-	<!-- End plugin js for this page-->
-	<!-- inject:js -->
-	<script
-		src="<%=request.getContextPath()%>/adminResources/js/off-canvas.js"></script>
-	<script
-		src="<%=request.getContextPath()%>/adminResources/js/hoverable-collapse.js"></script>
-	<script
-		src="<%=request.getContextPath()%>/adminResources/js/template.js"></script>
-	<script
-		src="<%=request.getContextPath()%>/adminResources/js/settings.js"></script>
-	<script
-		src="<%=request.getContextPath()%>/adminResources/js/todolist.js"></script>
-	<!-- endinject -->
-	<!-- Custom js for this page-->
-	<script
-		src="<%=request.getContextPath()%>/adminResources/js/dashboard.js"></script>
-	<!-- End custom js for this page-->
+		<!-- plugins:js -->
+		<script
+			src="<%=request.getContextPath()%>/adminResources/js/vendor.bundle.base.js"></script>
+		<!-- endinject -->
+		<!-- Plugin js for this page-->
+		<script
+			src="<%=request.getContextPath()%>/adminResources/js/Chart.min.js"></script>
+		<script
+			src="<%=request.getContextPath()%>/adminResources/js/progressbar.min.js"></script>
+		<script
+			src="<%=request.getContextPath()%>/adminResources/js/bootstrap-datepicker.min.js"></script>
+		<script
+			src="<%=request.getContextPath()%>/adminResources/js/jquery.barrating.min.js"></script>
+		<script
+			src="<%=request.getContextPath()%>/adminResources/js/jquery.sparkline.min.js"></script>
+		<script
+			src="<%=request.getContextPath()%>/adminResources/js/raphael.min.js"></script>
+		<script
+			src="<%=request.getContextPath()%>/adminResources/js/morris.min.js"></script>
+		<!-- End plugin js for this page-->
+		<!-- inject:js -->
+		<script
+			src="<%=request.getContextPath()%>/adminResources/js/off-canvas.js"></script>
+		<script
+			src="<%=request.getContextPath()%>/adminResources/js/hoverable-collapse.js"></script>
+		<script
+			src="<%=request.getContextPath()%>/adminResources/js/template.js"></script>
+		<script
+			src="<%=request.getContextPath()%>/adminResources/js/settings.js"></script>
+		<script
+			src="<%=request.getContextPath()%>/adminResources/js/todolist.js"></script>
+		<!-- endinject -->
+		<!-- Custom js for this page-->
+		<script
+			src="<%=request.getContextPath()%>/adminResources/js/dashboard.js"></script>
+		<!-- End custom js for this page-->
 </body>
 </html>

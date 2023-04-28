@@ -30,6 +30,9 @@
 		<li class="nav-item"><a class="nav-link" href="JustHappenedPage"> <i
 				class="icon-menu menu-icon"></i> <span class="menu-title">Just Happened </span>
 		</a></li>
+		<li class="nav-item"><a class="nav-link" href="bucketListPage"> <i
+				class="icon-menu menu-icon"></i> <span class="menu-title">Bucket List </span>
+		</a></li>
 		<!-- <li class="nav-item"><a class="nav-link"
 			href="pages/widgets/widgets.html"> <i
 				class="icon-handbag menu-icon"></i> <span class="menu-title">Widgets</span>

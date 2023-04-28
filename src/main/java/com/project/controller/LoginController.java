@@ -1,8 +1,11 @@
 package com.project.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
@@ -14,11 +17,23 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.project.VO.LoginVO;
-
+import com.project.VO.MemberVO;
+import com.project.service.LoginService;
+import com.project.service.MemberService;
+import com.project.util.BaseMethods;
 
 @Controller
 public class LoginController {
-	
+
+	@Autowired
+	private LoginService loginService;
+
+	@Autowired
+	private MemberService memberService;
+
+	@Autowired
+	private BaseMethods baseMethods;
+
 	@GetMapping(value = "/")
 	public ModelAndView loadLogin() {
 		return new ModelAndView("/login");
@@ -31,7 +46,11 @@ public class LoginController {
 
 	@GetMapping(value = "/user/index")
 	public ModelAndView userIndex() {
-		return new ModelAndView("user/index", "add", new LoginVO()).addObject("alreadyExist",false);
+
+		List<MemberVO> memberList = memberService.getListById(loginService.getUserId(baseMethods.getUser()));
+
+		return new ModelAndView("user/index", "add", new LoginVO()).addObject("alreadyExist", false)
+				.addObject("memberList", memberList);
 	}
 
 	@RequestMapping(value = "/logout", method = { RequestMethod.POST, RequestMethod.GET })

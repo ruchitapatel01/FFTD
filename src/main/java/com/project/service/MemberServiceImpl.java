@@ -31,4 +31,8 @@ public class MemberServiceImpl implements MemberService{
 		return memberDAO.searchForFamily(loginVo);
 	}
 
+	public List<MemberVO> getListById(Integer id) {
+		return memberDAO.searchByLoginId(id);
+	}
+
 }
